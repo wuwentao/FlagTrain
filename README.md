@@ -38,14 +38,16 @@ uv pip install -e ".[test]"          # development and tests
 uv pip install -e ".[test,nvidia]"   # NVIDIA dependencies and tests
 ```
 
+> `uv` is a builtin command/feature in `build-infra` images
+
 > **Important:** Use `uv pip install`, not `pip install`, when installing a
 > vendor extra. DeepSpeed declares generic `torch` and `triton` dependencies,
-> while FlagOS images already provide hardware-specific compatible builds.
-> FlagTrain uses `[tool.uv].exclude-dependencies` to keep those image packages
-> out of dependency resolution and still install DeepSpeed's other transitive
-> dependencies, such as `hjson` and `py-cpuinfo`. pip does not read this uv
-> configuration and currently has no equivalent project setting for excluding
-> selected transitive dependencies.
+> while FlagOS `build-infra` images already provide hardware-specific
+> compatible builds. FlagTrain uses `[tool.uv].exclude-dependencies` to keep
+> those image packages out of dependency resolution and still install
+> DeepSpeed's other transitive dependencies. `pip` does not read this `uv`
+> configuration and currently has no equivalent project setting for
+> excluding selected transitive dependencies.
 
 On the FlagOS network, set `UV_DEFAULT_INDEX` to the package mirror before
 installing.
@@ -58,7 +60,7 @@ uv pip install -e ".[metax]"        # MetaX
 uv pip install -e ".[test,nvidia]"  # NVIDIA + tests
 ```
 
-The image already provides torch, numpy, flagtree and megatron-core. The uv
+The image already provides `torch`, `numpy`, `flagtree` and `megatron-core`. The `uv`
 exclusion policy preserves the image-provided torch and Triton implementations
 while resolving the remaining vendor-extra dependencies. Keep vendor extras in
 sync with the versions documented in `backends.yaml`.
